@@ -10,14 +10,17 @@ const postIds = [1, 2, 5, 10];
 
 // fetchPosts();
 
-// fetch('https://jsonplaceholder.typicode.com/posts/2')
-//   .then((res) => res.json())
-//   .then((res) => console.log(res));
-
 async function fetchPosts() {
-  const promises = postIds.map((id) => fetch(`${BASE_URL}${id}`));
-  return await Promise.allSettled(promises).then((res) => res.map((r) => console.log(r)));
+  const promises = postIds.map((id) => fetch(`${BASE_URL}/${id}`));
+  const responses = await Promise.allSettled(promises).then((values) => values.map((value) => value.value.json()));
+  // const result = responses.map((res) =>
+  //   res.value.json().then((data) => ({
+  //     data,
+  //     status: res.status,
+  //   }))
+  // );
+  // console.log(result);
+  console.log(responses);
 }
 
-const result = await fetchPosts();
-console.log('result', result);
+fetchPosts();
